@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Results — Smartphone Finder</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <div class="container">
+      <a class="back" href="/">← Back</a>
+      <h1>Results</h1>
+      {% if note %}
+        <p class="note">{{ note }}</p>
+      {% else %}
+        <p class="note">Showing {{ phones|length }} phones for brand "{{ brand }}" with price ≤ {{ max_price }}.</p>
+        <table class="phones">
+          <thead>
+            <tr>
+              <th>Model</th><th>Price</th><th>RAM</th><th>Storage</th><th>Battery</th><th>Processor</th><th>Screen"</th><th>Refresh</th><th>Primary Cam (MP)</th><th>Premium %</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in phones %}
+            <tr>
+              <td><strong>{{ p.model }}</strong><br><small>{{ p.brand_name }}</small></td>
+              <td>₹{{ "{:,.0f}".format(p.price) }}</td>
+              <td>{{ p.ram_capacity }} GB</td>
+              <td>{{ p.internal_memory }} GB</td>
+              <td>{{ p.battery_capacity }} mAh</td>
+              <td>{{ p.processor_brand }} @ {{ p.processor_speed }} GHz ({{ p.num_cores }} cores)</td>
+              <td>{{ p.screen_size }}"</td>
+              <td>{{ p.refresh_rate }} Hz</td>
+              <td>{{ p.primary_camera_rear }} MP</td>
+              <td>{{ p.premium_prob }}%</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+  </body>
+</html>
