@@ -1,0 +1,67 @@
+Logistic Regression Project Report
+1. Introduction
+
+The purpose of this project was to build a logistic regression model that predicts whether a person’s income is greater than $50,000 per year. I used the Adult Income Dataset (adult_converted.csv) and implemented the solution using Python, Pandas, Scikit-Learn, and Streamlit.
+
+2. Steps Performed
+2.1 Data Loading
+
+I started by loading the dataset with Pandas:
+
+df = pd.read_csv("adult_converted.csv")
+
+2.2 Problem Faced – KeyError
+
+While I was preparing the data for training, I faced this error:
+
+KeyError: "['income'] not found in axis"
+
+
+I got this error because the target column was not actually named “income”.
+The column name in the CSV had extra spaces and newline characters, something like:
+
+"Income (label / target)"
+
+
+Since Pandas could not find a column exactly named “income”, it raised the KeyError.
+
+3. How the Problem Was Solved
+3.1 Cleaning and Renaming Columns
+
+To fix this issue, I cleaned the column names to remove unnecessary spaces and newline characters:
+
+df.columns = df.columns.str.strip()
+df.columns = df.columns.str.replace(r'\s+', ' ', regex=True)
+
+
+Then I renamed the target column to a simple name:
+
+df.rename(columns={'Income (label / target)': 'income'}, inplace=True)
+
+
+After this, I was able to separate the features and target without any errors:
+
+X = df.drop("income", axis=1)
+y = df["income"]
+
+4. Model Training
+
+I encoded categorical features, split the dataset into training and testing sets, and trained the logistic regression model using Scikit-Learn. After training, I evaluated the model’s accuracy to understand its performance.
+
+5. Streamlit Application
+
+I built a Streamlit application that performs the following tasks:
+
+Displays the dataset
+
+Trains the logistic regression model
+
+Accepts user inputs
+
+Predicts whether a person’s income is more than $50,000 based on the provided information
+
+The model worked correctly after fixing the target column issue.
+
+6. Conclusion
+
+The main issue encountered during the project was a KeyError caused by an incorrectly formatted target column name. After cleaning and renaming the column, the model ran smoothly and the Streamlit application was able to generate predictions as expected.
